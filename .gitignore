@@ -21,7 +21,7 @@
 .DS_Store
 *.pem
 .cache/**
-**/.agent/**
+.agent/**
 .cache-home/**
 .github/
 prisma/migrations/**

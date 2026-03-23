@@ -1,0 +1,60 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin-arm64"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Service {
+  id          String    @id @default(cuid())
+  name        String
+  duration    Int
+  description String
+  price       Int
+  active      Boolean   @default(true)
+  bookings    Booking[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Availability {
+  id        String   @id @default(cuid())
+  dayOfWeek Int?
+  date      DateTime?
+  startTime String
+  endTime   String
+  isBlocked Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Booking {
+  id          String        @id @default(cuid())
+  serviceId   String
+  service     Service       @relation(fields: [serviceId], references: [id])
+  clientName  String
+  clientEmail String
+  clientPhone String?
+  notes       String?
+  date        DateTime
+  startTime   String
+  endTime     String
+  status      BookingStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}

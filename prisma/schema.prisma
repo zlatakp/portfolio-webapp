@@ -53,6 +53,13 @@ model User {
   createdAt DateTime @default(now())
 }
 
+model SiteContent {
+  id        String   @id
+  content   Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum BookingStatus {
   PENDING
   CONFIRMED

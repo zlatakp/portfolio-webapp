@@ -1,5 +1,9 @@
 import bcrypt from "bcryptjs";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
+import {
+  SITE_CONTENT_ID,
+  defaultSiteContent,
+} from "../lib/site-content";
 
 const prisma = new PrismaClient();
 
@@ -19,6 +23,19 @@ async function main(): Promise<void> {
     create: {
       email: adminEmail,
       password,
+    },
+  });
+
+  await prisma.siteContent.upsert({
+    where: {
+      id: SITE_CONTENT_ID,
+    },
+    update: {
+      content: defaultSiteContent as Prisma.InputJsonValue,
+    },
+    create: {
+      id: SITE_CONTENT_ID,
+      content: defaultSiteContent as Prisma.InputJsonValue,
     },
   });
 }

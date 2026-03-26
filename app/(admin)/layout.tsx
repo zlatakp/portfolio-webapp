@@ -7,6 +7,7 @@ const navigationItems = [
   { href: "/dashboard/availability", label: "Availability" },
   { href: "/dashboard/services", label: "Services" },
   { href: "/dashboard/portfolio", label: "Portfolio" },
+  { href: "/dashboard/content", label: "Content" },
 ];
 
 export default async function AdminLayout({

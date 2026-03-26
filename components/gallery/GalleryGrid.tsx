@@ -4,6 +4,8 @@ interface GalleryImage {
   id: string;
   name: string;
   url: string;
+  alt?: string;
+  caption?: string;
 }
 
 interface GalleryGridProps {
@@ -25,21 +27,24 @@ export function GalleryGrid({ images }: GalleryGridProps) {
       {images.map((image, index) => (
         <article
           key={image.id}
-          className={`group overflow-hidden rounded-[2rem] bg-stone-200 shadow-[0_24px_70px_rgba(58,39,26,0.12)] ${
-            index % 3 === 0 ? "xl:translate-y-10" : ""
+          className={`group overflow-hidden rounded-[2.25rem] bg-stone-200 shadow-[0_24px_70px_rgba(58,39,26,0.12)] ${
+            index % 3 === 0 ? "xl:translate-y-10" : index % 3 === 1 ? "xl:-translate-y-2" : ""
           }`}
         >
           <div className="relative aspect-[4/5] overflow-hidden">
             <Image
-              alt={image.name}
+              alt={image.alt ?? image.name}
               className="object-cover transition duration-500 group-hover:scale-105"
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
               src={image.url}
             />
-          </div>
-          <div className="bg-white px-5 py-4">
-            <p className="text-sm font-medium text-stone-700">{image.name}</p>
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-stone-950/85 via-stone-950/30 to-transparent px-5 py-5 text-stone-50">
+              <p className="text-sm font-medium">{image.name}</p>
+              {image.caption ? (
+                <p className="mt-2 text-sm leading-6 text-stone-100/85">{image.caption}</p>
+              ) : null}
+            </div>
           </div>
         </article>
       ))}

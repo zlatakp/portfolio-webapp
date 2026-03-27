@@ -3,6 +3,14 @@ import { z } from "zod";
 import { prisma } from "./prisma";
 
 export const SITE_CONTENT_ID = "site-content";
+export const DEFAULT_PUBLIC_THEME_ID = "editorial-sand";
+export const PUBLIC_THEME_IDS = [
+  "editorial-sand",
+  "midnight-olive",
+  "black-tie",
+] as const;
+
+const publicThemeIdSchema = z.enum(PUBLIC_THEME_IDS);
 
 const siteImageSchema = z.object({
   id: z.string().min(1),
@@ -13,6 +21,9 @@ const siteImageSchema = z.object({
 });
 
 const siteContentTextSchema = z.object({
+  theme: z.object({
+    themeId: publicThemeIdSchema,
+  }),
   header: z.object({
     brandName: z.string().min(1),
     eyebrow: z.string().min(1),
@@ -98,8 +109,138 @@ export const siteContentEditableSchema = siteContentTextSchema;
 export type SiteContentImage = z.infer<typeof siteImageSchema>;
 export type SiteContent = z.infer<typeof siteContentSchema>;
 export type SiteContentEditableInput = z.infer<typeof siteContentEditableSchema>;
+export type PublicThemeId = (typeof PUBLIC_THEME_IDS)[number];
+
+export interface PublicThemeTokens {
+  shellBackground: string;
+  headerSurface: string;
+  headerBorder: string;
+  primaryText: string;
+  mutedText: string;
+  primaryCtaBackground: string;
+  primaryCtaText: string;
+  primaryCtaHover: string;
+  secondaryCtaBackground: string;
+  secondaryCtaBorder: string;
+  secondaryCtaText: string;
+  secondaryCtaHover: string;
+  cardSurface: string;
+  cardBorder: string;
+  accentPanelSurface: string;
+  accentPanelText: string;
+  darkPanelSurface: string;
+  darkPanelText: string;
+  footerSurface: string;
+  imageOverlayText: string;
+  imageOverlayMutedText: string;
+  shadowColor: string;
+}
+
+export interface PublicThemePreset {
+  id: PublicThemeId;
+  label: string;
+  description: string;
+  previewSwatches: [string, string, string];
+  tokens: PublicThemeTokens;
+}
+
+export const publicThemePresets: PublicThemePreset[] = [
+  {
+    id: "editorial-sand",
+    label: "Editorial Sand",
+    description: "Warm parchment neutrals with bronze depth for a soft luxury tone.",
+    previewSwatches: ["#fcf7f1", "#c69666", "#241c18"],
+    tokens: {
+      shellBackground: "linear-gradient(180deg,#fcf7f1 0%,#f4e9dc 100%)",
+      headerSurface: "rgba(252,247,241,0.9)",
+      headerBorder: "rgba(214,196,176,0.8)",
+      primaryText: "#201815",
+      mutedText: "#6a5950",
+      primaryCtaBackground: "#211917",
+      primaryCtaText: "#fbf6f0",
+      primaryCtaHover: "#463630",
+      secondaryCtaBackground: "rgba(255,255,255,0.72)",
+      secondaryCtaBorder: "#cdb9a5",
+      secondaryCtaText: "#201815",
+      secondaryCtaHover: "#ffffff",
+      cardSurface: "rgba(255,250,245,0.92)",
+      cardBorder: "#dfd0c2",
+      accentPanelSurface: "radial-gradient(circle at top,#ead3bb 0%,#d1aa81 42%,#b67b54 100%)",
+      accentPanelText: "#261a16",
+      darkPanelSurface: "#221916",
+      darkPanelText: "#f8efe6",
+      footerSurface: "rgba(255,252,248,0.8)",
+      imageOverlayText: "#fffaf5",
+      imageOverlayMutedText: "rgba(255,244,232,0.82)",
+      shadowColor: "rgba(88,56,31,0.18)",
+    },
+  },
+  {
+    id: "midnight-olive",
+    label: "Midnight Olive",
+    description: "Moss-inflected dusk tones with tailored contrast and a gallery mood.",
+    previewSwatches: ["#111816", "#7f8f6f", "#f3efe6"],
+    tokens: {
+      shellBackground: "linear-gradient(180deg,#141b18 0%,#202926 100%)",
+      headerSurface: "rgba(20,27,24,0.84)",
+      headerBorder: "rgba(103,118,101,0.55)",
+      primaryText: "#f1ede3",
+      mutedText: "#c2c3b8",
+      primaryCtaBackground: "#e8dcc8",
+      primaryCtaText: "#17201c",
+      primaryCtaHover: "#f4e9d8",
+      secondaryCtaBackground: "rgba(34,45,41,0.74)",
+      secondaryCtaBorder: "#839175",
+      secondaryCtaText: "#f1ede3",
+      secondaryCtaHover: "#30403a",
+      cardSurface: "rgba(27,35,32,0.9)",
+      cardBorder: "#44544b",
+      accentPanelSurface: "radial-gradient(circle at top,#7b8b6c 0%,#596854 40%,#29342f 100%)",
+      accentPanelText: "#f6f1e8",
+      darkPanelSurface: "#0f1513",
+      darkPanelText: "#eef0e7",
+      footerSurface: "rgba(16,22,20,0.86)",
+      imageOverlayText: "#f6f2ea",
+      imageOverlayMutedText: "rgba(233,231,222,0.84)",
+      shadowColor: "rgba(4,10,7,0.3)",
+    },
+  },
+  {
+    id: "black-tie",
+    label: "Black Tie",
+    description: "Monochrome luxury with champagne highlights and higher formal contrast.",
+    previewSwatches: ["#0b0b0c", "#d9c4a3", "#faf7f2"],
+    tokens: {
+      shellBackground: "linear-gradient(180deg,#0c0d0e 0%,#17181b 100%)",
+      headerSurface: "rgba(12,13,14,0.86)",
+      headerBorder: "rgba(104,96,84,0.55)",
+      primaryText: "#f7f2ea",
+      mutedText: "#cbc2b6",
+      primaryCtaBackground: "#dbc2a0",
+      primaryCtaText: "#141212",
+      primaryCtaHover: "#f0d7b6",
+      secondaryCtaBackground: "rgba(25,26,29,0.78)",
+      secondaryCtaBorder: "#8e7c66",
+      secondaryCtaText: "#f7f2ea",
+      secondaryCtaHover: "#303238",
+      cardSurface: "rgba(21,22,25,0.92)",
+      cardBorder: "#454140",
+      accentPanelSurface: "radial-gradient(circle at top,#d7c0a1 0%,#9f8266 38%,#3a2f2b 100%)",
+      accentPanelText: "#111010",
+      darkPanelSurface: "#090909",
+      darkPanelText: "#f8f3eb",
+      footerSurface: "rgba(10,10,11,0.88)",
+      imageOverlayText: "#faf6f0",
+      imageOverlayMutedText: "rgba(238,228,214,0.84)",
+      shadowColor: "rgba(0,0,0,0.36)",
+    },
+  },
+];
 
 export const defaultSiteContent: SiteContent = {
+  theme: {
+    themeId: DEFAULT_PUBLIC_THEME_ID,
+  },
   header: {
     brandName: "Zlata Studio",
     eyebrow: "Portrait photography in London",
@@ -283,13 +424,25 @@ function mergeDeep<T>(defaults: T, value: unknown): T {
 }
 
 export function resolveSiteContent(rawContent?: Prisma.JsonValue | null): SiteContent {
-  return siteContentSchema.parse(mergeDeep(defaultSiteContent, rawContent));
+  const mergedContent = mergeDeep(defaultSiteContent, rawContent);
+
+  if (
+    !mergedContent.theme ||
+    !publicThemeIdSchema.safeParse(mergedContent.theme.themeId).success
+  ) {
+    mergedContent.theme = {
+      themeId: DEFAULT_PUBLIC_THEME_ID,
+    };
+  }
+
+  return siteContentSchema.parse(mergedContent);
 }
 
 export function getEditableSiteContent(
   content: SiteContent,
 ): SiteContentEditableInput {
   return siteContentEditableSchema.parse({
+    theme: content.theme,
     header: content.header,
     footer: content.footer,
     home: content.home,
@@ -307,6 +460,17 @@ export function mergeSiteContent(
     ...mergeDeep(currentContent, editableContent),
     placeholderImages: currentContent.placeholderImages,
   });
+}
+
+export function getPublicThemePresets(): PublicThemePreset[] {
+  return publicThemePresets;
+}
+
+export function getSelectedPublicTheme(content: SiteContent): PublicThemePreset {
+  return (
+    publicThemePresets.find((preset) => preset.id === content.theme.themeId) ??
+    publicThemePresets[0]
+  );
 }
 
 export async function getSiteContent(): Promise<SiteContent> {

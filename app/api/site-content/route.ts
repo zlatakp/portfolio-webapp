@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import {
   SITE_CONTENT_ID,
   getSiteContent,
+  getSelectedPublicTheme,
   mergeSiteContent,
   siteContentEditableSchema,
 } from "@/lib/site-content";
@@ -18,8 +19,9 @@ export async function GET() {
   }
 
   const content = await getSiteContent();
+  const themePreset = getSelectedPublicTheme(content);
 
-  return NextResponse.json({ content });
+  return NextResponse.json({ content, themePreset });
 }
 
 export async function PATCH(request: Request) {
@@ -33,6 +35,7 @@ export async function PATCH(request: Request) {
     const editableContent = siteContentEditableSchema.parse(await request.json());
     const currentContent = await getSiteContent();
     const content = mergeSiteContent(currentContent, editableContent);
+    const themePreset = getSelectedPublicTheme(content);
 
     await prisma.siteContent.upsert({
       where: {
@@ -47,7 +50,7 @@ export async function PATCH(request: Request) {
       },
     });
 
-    return NextResponse.json({ content });
+    return NextResponse.json({ content, themePreset });
   } catch (error) {
     return handleApiError(error);
   }

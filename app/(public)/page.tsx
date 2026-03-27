@@ -75,24 +75,24 @@ export default async function HomePage() {
       <section className="px-6 py-16 sm:py-20">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="space-y-6">
-            <p className="text-xs uppercase tracking-[0.32em] text-stone-500">
+            <p className="text-xs uppercase tracking-[0.32em] text-[var(--public-muted-text)]">
               {content.home.eyebrow}
             </p>
-            <h1 className="max-w-4xl text-5xl font-semibold tracking-tight text-stone-950 sm:text-6xl">
+            <h1 className="max-w-4xl text-5xl font-semibold tracking-tight text-[var(--public-primary-text)] sm:text-6xl">
               {content.home.title}
             </h1>
-            <p className="max-w-2xl text-base leading-8 text-stone-650">
+            <p className="max-w-2xl text-base leading-8 text-[var(--public-muted-text)]">
               {content.home.description}
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
-                className="rounded-full bg-stone-950 px-6 py-3 text-sm font-semibold text-stone-50 transition hover:bg-stone-700"
+                className="rounded-full bg-[var(--public-primary-cta-background)] px-6 py-3 text-sm font-semibold text-[var(--public-primary-cta-text)] transition hover:bg-[var(--public-primary-cta-hover)]"
                 href="/book"
               >
                 {content.home.primaryCtaLabel}
               </Link>
               <Link
-                className="rounded-full border border-stone-300 px-6 py-3 text-sm font-semibold text-stone-900 transition hover:border-stone-500 hover:bg-white"
+                className="rounded-full border border-[var(--public-secondary-cta-border)] bg-[var(--public-secondary-cta-background)] px-6 py-3 text-sm font-semibold text-[var(--public-secondary-cta-text)] transition hover:bg-[var(--public-secondary-cta-hover)]"
                 href="/portfolio"
               >
                 {content.home.secondaryCtaLabel}
@@ -101,7 +101,7 @@ export default async function HomePage() {
           </div>
 
           <div className="grid gap-5">
-            <div className="relative overflow-hidden rounded-[2.75rem] bg-stone-200 shadow-[0_40px_120px_rgba(88,56,31,0.2)]">
+            <div className="relative overflow-hidden rounded-[2.75rem] bg-[var(--public-card-surface)] shadow-[0_40px_120px_var(--public-shadow-color)]">
               <div className="relative aspect-[4/5]">
                 <Image
                   alt={heroImage.alt}
@@ -112,36 +112,36 @@ export default async function HomePage() {
                   src={heroImage.url}
                 />
               </div>
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-stone-950/80 via-stone-950/40 to-transparent px-6 py-8 text-stone-50">
-                <p className="text-xs uppercase tracking-[0.24em] text-stone-200/75">
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-6 py-8 text-[var(--public-image-overlay-text)]">
+                <p className="text-xs uppercase tracking-[0.24em] text-[var(--public-image-overlay-muted-text)]">
                   {heroImage.name}
                 </p>
-                <p className="mt-3 max-w-md text-sm leading-7 text-stone-100/90">
+                <p className="mt-3 max-w-md text-sm leading-7 text-[var(--public-image-overlay-text)]">
                   {heroImage.caption}
                 </p>
               </div>
             </div>
 
-            <div className="rounded-[2.5rem] bg-[radial-gradient(circle_at_top,#e7cdb4_0%,#d5b18f_38%,#b98d67_100%)] p-8 text-stone-950 shadow-[0_40px_120px_rgba(88,56,31,0.2)]">
-              <p className="text-xs uppercase tracking-[0.24em] text-stone-600">
+            <div className="rounded-[2.5rem] bg-[var(--public-accent-panel-surface)] p-8 text-[var(--public-accent-panel-text)] shadow-[0_40px_120px_var(--public-shadow-color)]">
+              <p className="text-xs uppercase tracking-[0.24em] text-[color:color-mix(in_srgb,var(--public-accent-panel-text)_70%,transparent)]">
                 {content.home.spotlightEyebrow}
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight">
                 {content.home.spotlightTitle}
               </h2>
-              <p className="mt-4 text-sm leading-7 text-stone-900/80">
+              <p className="mt-4 text-sm leading-7 text-[color:color-mix(in_srgb,var(--public-accent-panel-text)_82%,transparent)]">
                 {content.home.spotlightDescription}
               </p>
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-[1.75rem] bg-white/70 p-5">
+                <div className="rounded-[1.75rem] bg-[color:color-mix(in_srgb,var(--public-secondary-cta-background)_88%,white)] p-5">
                   <p className="text-3xl font-semibold">{content.home.primaryStatValue}</p>
-                  <p className="mt-2 text-sm text-stone-700">
+                  <p className="mt-2 text-sm text-[color:color-mix(in_srgb,var(--public-accent-panel-text)_78%,transparent)]">
                     {content.home.primaryStatLabel}
                   </p>
                 </div>
-                <div className="rounded-[1.75rem] bg-stone-950/90 p-5 text-stone-50">
+                <div className="rounded-[1.75rem] bg-[var(--public-dark-panel-surface)] p-5 text-[var(--public-dark-panel-text)]">
                   <p className="text-3xl font-semibold">{content.home.secondaryStatValue}</p>
-                  <p className="mt-2 text-sm text-stone-300">
+                  <p className="mt-2 text-sm text-[color:color-mix(in_srgb,var(--public-dark-panel-text)_82%,transparent)]">
                     {content.home.secondaryStatLabel}
                   </p>
                 </div>
@@ -155,15 +155,15 @@ export default async function HomePage() {
         <div className="mx-auto max-w-6xl space-y-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.28em] text-stone-500">
+              <p className="text-xs uppercase tracking-[0.28em] text-[var(--public-muted-text)]">
                 {content.home.galleryEyebrow}
               </p>
-              <h2 className="mt-2 text-3xl font-semibold tracking-tight text-stone-950">
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight text-[var(--public-primary-text)]">
                 {content.home.galleryTitle}
               </h2>
             </div>
             <Link
-              className="text-sm font-semibold text-stone-700 underline-offset-4 hover:underline"
+              className="text-sm font-semibold text-[var(--public-muted-text)] underline-offset-4 hover:text-[var(--public-primary-text)] hover:underline"
               href="/portfolio"
             >
               See the full gallery
@@ -178,21 +178,21 @@ export default async function HomePage() {
         <div className="mx-auto max-w-6xl space-y-6">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div className="space-y-2">
-              <p className="text-xs uppercase tracking-[0.28em] text-stone-500">
+              <p className="text-xs uppercase tracking-[0.28em] text-[var(--public-muted-text)]">
                 {content.home.servicesEyebrow}
               </p>
-              <h2 className="text-3xl font-semibold tracking-tight text-stone-950">
+              <h2 className="text-3xl font-semibold tracking-tight text-[var(--public-primary-text)]">
                 {content.home.servicesTitle}
               </h2>
             </div>
-            <p className="max-w-2xl text-sm leading-7 text-stone-600">
+            <p className="max-w-2xl text-sm leading-7 text-[var(--public-muted-text)]">
               {content.home.servicesDescription}
             </p>
           </div>
 
           <div className="grid gap-5 md:grid-cols-3">
             {services.length === 0 ? (
-              <p className="rounded-[2rem] border border-dashed border-stone-300 px-6 py-8 text-sm text-stone-500 md:col-span-3">
+              <p className="rounded-[2rem] border border-dashed border-[var(--public-card-border)] px-6 py-8 text-sm text-[var(--public-muted-text)] md:col-span-3">
                 No services have been published yet. Add services in the admin dashboard
                 to populate this section.
               </p>
@@ -200,15 +200,15 @@ export default async function HomePage() {
               services.map((service) => (
                 <article
                   key={service.id}
-                  className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_16px_50px_rgba(58,39,26,0.08)]"
+                  className="rounded-[2rem] border border-[var(--public-card-border)] bg-[var(--public-card-surface)] p-6 shadow-[0_16px_50px_var(--public-shadow-color)]"
                 >
-                  <p className="text-xs uppercase tracking-[0.24em] text-stone-500">
+                  <p className="text-xs uppercase tracking-[0.24em] text-[var(--public-muted-text)]">
                     {service.duration} min · {service.price} minor units
                   </p>
-                  <h3 className="mt-4 text-2xl font-semibold tracking-tight text-stone-950">
+                  <h3 className="mt-4 text-2xl font-semibold tracking-tight text-[var(--public-primary-text)]">
                     {service.name}
                   </h3>
-                  <p className="mt-3 text-sm leading-7 text-stone-600">
+                  <p className="mt-3 text-sm leading-7 text-[var(--public-muted-text)]">
                     {service.description}
                   </p>
                 </article>

@@ -5,6 +5,28 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --public-shell-background: linear-gradient(180deg, #fcf7f1 0%, #f4e9dc 100%);
+  --public-header-surface: rgba(252, 247, 241, 0.9);
+  --public-header-border: rgba(214, 196, 176, 0.8);
+  --public-primary-text: #201815;
+  --public-muted-text: #6a5950;
+  --public-primary-cta-background: #211917;
+  --public-primary-cta-text: #fbf6f0;
+  --public-primary-cta-hover: #463630;
+  --public-secondary-cta-background: rgba(255, 255, 255, 0.72);
+  --public-secondary-cta-border: #cdb9a5;
+  --public-secondary-cta-text: #201815;
+  --public-secondary-cta-hover: #ffffff;
+  --public-card-surface: rgba(255, 250, 245, 0.92);
+  --public-card-border: #dfd0c2;
+  --public-accent-panel-surface: radial-gradient(circle at top, #ead3bb 0%, #d1aa81 42%, #b67b54 100%);
+  --public-accent-panel-text: #261a16;
+  --public-dark-panel-surface: #221916;
+  --public-dark-panel-text: #f8efe6;
+  --public-footer-surface: rgba(255, 252, 248, 0.8);
+  --public-image-overlay-text: #fffaf5;
+  --public-image-overlay-muted-text: rgba(255, 244, 232, 0.82);
+  --public-shadow-color: rgba(88, 56, 31, 0.18);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,5 +45,10 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .public-theme-shell {
+    background: var(--public-shell-background);
+    color: var(--public-primary-text);
   }
 }

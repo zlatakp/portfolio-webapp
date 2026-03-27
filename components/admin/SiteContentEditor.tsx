@@ -3,12 +3,14 @@
 import { useState, useTransition } from "react";
 import {
   getEditableSiteContent,
+  type PublicThemePreset,
   type SiteContent,
   type SiteContentEditableInput,
 } from "@/lib/site-content";
 
 interface SiteContentEditorProps {
   initialContent: SiteContent;
+  themePresets: PublicThemePreset[];
 }
 
 interface FieldConfig {
@@ -18,17 +20,32 @@ interface FieldConfig {
 }
 
 interface SectionConfig {
+  id: string;
   eyebrow: string;
   title: string;
   description: string;
+  affects: string;
   fields: FieldConfig[];
 }
 
+type SaveState = "idle" | "saving" | "saved" | "error";
+
+const themeSection = {
+  id: "theme",
+  eyebrow: "Curated public presentation",
+  title: "Theme",
+  description:
+    "Choose one of the curated public themes below. This changes the marketing palette across the public shell and content pages without affecting booking flows, services data, or admin styling.",
+  affects: "Affects: shared header/footer and /, /portfolio, /services, /about",
+};
+
 const sections: SectionConfig[] = [
   {
+    id: "shared-public-chrome",
     eyebrow: "Header and footer",
     title: "Shared public chrome",
     description: "Controls the marketing copy shown in the public header CTA and footer.",
+    affects: "Affects: shared header/footer across /, /portfolio, /services, /about",
     fields: [
       { path: "header.brandName", label: "Brand name" },
       { path: "header.eyebrow", label: "Header eyebrow" },
@@ -40,9 +57,11 @@ const sections: SectionConfig[] = [
     ],
   },
   {
-    eyebrow: "Homepage",
-    title: "Hero and featured sections",
+    id: "homepage",
+    eyebrow: "Hero and featured sections",
+    title: "Homepage",
     description: "Sets the home page metadata, hero copy, stats, and section labels.",
+    affects: "Affects: /",
     fields: [
       { path: "home.metadataTitle", label: "Metadata title" },
       { path: "home.metadataDescription", label: "Metadata description", rows: 3 },
@@ -66,9 +85,11 @@ const sections: SectionConfig[] = [
     ],
   },
   {
-    eyebrow: "Portfolio page",
-    title: "Portfolio copy",
+    id: "portfolio-page",
+    eyebrow: "Portfolio copy",
+    title: "Portfolio page",
     description: "Controls the portfolio page metadata and the copy that frames the gallery.",
+    affects: "Affects: /portfolio",
     fields: [
       { path: "portfolio.metadataTitle", label: "Metadata title" },
       { path: "portfolio.metadataDescription", label: "Metadata description", rows: 3 },
@@ -81,9 +102,11 @@ const sections: SectionConfig[] = [
     ],
   },
   {
-    eyebrow: "Services page",
-    title: "Services framing copy",
+    id: "services-page",
+    eyebrow: "Services framing copy",
+    title: "Services page",
     description: "Shapes the editorial copy around the existing live services list and booking links.",
+    affects: "Affects: /services",
     fields: [
       { path: "services.metadataTitle", label: "Metadata title" },
       { path: "services.metadataDescription", label: "Metadata description", rows: 3 },
@@ -97,9 +120,11 @@ const sections: SectionConfig[] = [
     ],
   },
   {
-    eyebrow: "About page",
-    title: "About story and process",
+    id: "about-page",
+    eyebrow: "About story and process",
+    title: "About page",
     description: "Updates the studio narrative and the three-step expectations section.",
+    affects: "Affects: /about",
     fields: [
       { path: "about.metadataTitle", label: "Metadata title" },
       { path: "about.metadataDescription", label: "Metadata description", rows: 3 },
@@ -118,6 +143,22 @@ const sections: SectionConfig[] = [
     ],
   },
 ];
+
+const quickJumpSections = [
+  { id: themeSection.id, title: "Theme", affects: themeSection.affects },
+  ...sections.map((section) => ({
+    id: section.id,
+    title: section.title,
+    affects: section.affects,
+  })),
+];
+
+function areFormsEqual(
+  left: SiteContentEditableInput,
+  right: SiteContentEditableInput,
+): boolean {
+  return JSON.stringify(left) === JSON.stringify(right);
+}
 
 function setFieldValue(
   current: SiteContentEditableInput,
@@ -155,16 +196,66 @@ function getFieldValue(
     }, content) as string;
 }
 
-export function SiteContentEditor({ initialContent }: SiteContentEditorProps) {
-  const [form, setForm] = useState(() => getEditableSiteContent(initialContent));
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+export function SiteContentEditor({
+  initialContent,
+  themePresets,
+}: SiteContentEditorProps) {
+  const initialForm = getEditableSiteContent(initialContent);
+  const [form, setForm] = useState(initialForm);
+  const [savedForm, setSavedForm] = useState(initialForm);
+  const [saveState, setSaveState] = useState<SaveState>("idle");
+  const [saveMessage, setSaveMessage] = useState("");
   const [isPending, startTransition] = useTransition();
+  const isDirty = !areFormsEqual(form, savedForm);
+
+  function resetSaveState() {
+    setSaveState("idle");
+    setSaveMessage("");
+  }
+
+  function updateForm(next: SiteContentEditableInput) {
+    setForm(next);
+    resetSaveState();
+  }
+
+  function updateField(path: string, value: string) {
+    setForm((current) => setFieldValue(current, path, value));
+    resetSaveState();
+  }
+
+  const saveStateLabel = {
+    idle: "Idle",
+    saving: "Saving",
+    saved: "Saved",
+    error: "Error",
+  }[saveState];
+
+  const saveStateText =
+    saveState === "saving"
+      ? "Saving the latest content changes for the public site."
+      : saveState === "saved"
+        ? saveMessage || "Public site content saved."
+        : saveState === "error"
+          ? saveMessage || "We couldn't save the latest content changes."
+          : isDirty
+            ? "Unsaved changes are ready to publish to the public site."
+            : "No unsaved changes. The editor matches the latest saved content.";
+
+  const saveStateTone =
+    saveState === "saved"
+      ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-100"
+      : saveState === "error"
+        ? "border-red-400/30 bg-red-500/10 text-red-100"
+        : saveState === "saving"
+          ? "border-amber-300/30 bg-amber-500/10 text-amber-100"
+          : isDirty
+            ? "border-amber-300/30 bg-amber-500/10 text-amber-100"
+            : "border-stone-700 bg-stone-950/70 text-stone-200";
 
   function saveContent() {
     startTransition(async () => {
-      setMessage("");
-      setError("");
+      setSaveState("saving");
+      setSaveMessage("");
 
       const response = await fetch("/api/site-content", {
         method: "PATCH",
@@ -175,16 +266,20 @@ export function SiteContentEditor({ initialContent }: SiteContentEditorProps) {
       });
 
       const payload = (await response.json()) as
-        | { content: SiteContent }
+        | { content: SiteContent; themePreset: PublicThemePreset }
         | { error: string };
 
       if (!response.ok || !("content" in payload)) {
-        setError("error" in payload ? payload.error : "Failed to save content.");
+        setSaveState("error");
+        setSaveMessage("error" in payload ? payload.error : "Failed to save content.");
         return;
       }
 
-      setForm(getEditableSiteContent(payload.content));
-      setMessage("Public site content saved.");
+      const nextSavedForm = getEditableSiteContent(payload.content);
+      setForm(nextSavedForm);
+      setSavedForm(nextSavedForm);
+      setSaveState("saved");
+      setSaveMessage("Public site content saved.");
     });
   }
 
@@ -202,67 +297,204 @@ export function SiteContentEditor({ initialContent }: SiteContentEditorProps) {
         </p>
       </div>
 
-      {sections.map((section) => (
-        <article
-          key={section.title}
-          className="rounded-[1.75rem] border border-stone-800 bg-stone-900/60 p-6"
-        >
-          <p className="text-xs uppercase tracking-[0.24em] text-stone-500">
-            {section.eyebrow}
-          </p>
-          <h3 className="mt-2 text-2xl font-semibold text-stone-50">{section.title}</h3>
-          <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-300">
-            {section.description}
-          </p>
+      <div className="grid gap-6 xl:grid-cols-[20rem_minmax(0,1fr)] xl:items-start">
+        <aside className="space-y-6 xl:sticky xl:top-24">
+          <div className="rounded-[1.75rem] border border-stone-800 bg-stone-900/75 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.18)]">
+            <p className="text-xs uppercase tracking-[0.28em] text-amber-200/60">
+              Save controls
+            </p>
+            <h3 className="mt-2 text-2xl font-semibold text-stone-50">
+              Keep website updates moving.
+            </h3>
+            <p className="mt-3 text-sm leading-7 text-stone-300">
+              This editor controls the shared header and footer plus the public Home,
+              Portfolio, Services, and About pages. Save here anytime while moving
+              through the sections below.
+            </p>
 
-          <div className="mt-6 grid gap-4 lg:grid-cols-2">
-            {section.fields.map((field) => (
-              <label
-                key={field.path}
-                className={`space-y-2 text-sm text-stone-300 ${
-                  field.rows ? "lg:col-span-2" : ""
-                }`}
-              >
-                <span>{field.label}</span>
-                {field.rows ? (
-                  <textarea
-                    className="min-h-28 w-full rounded-2xl border border-stone-700 bg-stone-950 px-4 py-3 text-sm text-stone-100"
-                    onChange={(event) =>
-                      setForm((current) =>
-                        setFieldValue(current, field.path, event.target.value),
-                      )
-                    }
-                    rows={field.rows}
-                    value={getFieldValue(form, field.path)}
-                  />
-                ) : (
-                  <input
-                    className="w-full rounded-2xl border border-stone-700 bg-stone-950 px-4 py-3 text-sm text-stone-100"
-                    onChange={(event) =>
-                      setForm((current) =>
-                        setFieldValue(current, field.path, event.target.value),
-                      )
-                    }
-                    value={getFieldValue(form, field.path)}
-                  />
-                )}
-              </label>
-            ))}
+            <div className={`mt-5 rounded-[1.5rem] border p-4 ${saveStateTone}`}>
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-xs uppercase tracking-[0.24em]">{saveStateLabel}</p>
+                <p className="text-xs uppercase tracking-[0.18em]">
+                  {isDirty ? "Unsaved changes" : "Up to date"}
+                </p>
+              </div>
+              <p className="mt-3 text-sm leading-6">{saveStateText}</p>
+            </div>
+
+            <button
+              className="mt-5 w-full rounded-full bg-stone-50 px-5 py-3 text-sm font-semibold text-stone-950 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-60"
+              disabled={isPending || !isDirty}
+              onClick={saveContent}
+              type="button"
+            >
+              {isPending ? "Saving..." : isDirty ? "Save content" : "All changes saved"}
+            </button>
           </div>
-        </article>
-      ))}
 
-      <div className="flex flex-wrap items-center gap-3">
-        <button
-          className="rounded-full bg-stone-50 px-5 py-3 text-sm font-semibold text-stone-950 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-60"
-          disabled={isPending}
-          onClick={saveContent}
-          type="button"
-        >
-          {isPending ? "Saving..." : "Save content"}
-        </button>
-        {message ? <p className="text-sm text-emerald-200">{message}</p> : null}
-        {error ? <p className="text-sm text-red-200">{error}</p> : null}
+          <nav className="rounded-[1.75rem] border border-stone-800 bg-stone-900/60 p-6">
+            <p className="text-xs uppercase tracking-[0.24em] text-stone-500">
+              Quick jump
+            </p>
+            <h3 className="mt-2 text-xl font-semibold text-stone-50">Page and section map</h3>
+            <div className="mt-5 space-y-3">
+              {quickJumpSections.map((section) => (
+                <a
+                  key={section.id}
+                  className="block rounded-[1.25rem] border border-stone-800 bg-stone-950/70 px-4 py-3 transition hover:border-stone-600 hover:bg-stone-900"
+                  href={`#${section.id}`}
+                >
+                  <p className="text-sm font-semibold text-stone-100">{section.title}</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.16em] text-stone-500">
+                    {section.affects}
+                  </p>
+                </a>
+              ))}
+            </div>
+          </nav>
+        </aside>
+
+        <div className="space-y-6">
+          <article
+            className="scroll-mt-28 rounded-[1.75rem] border border-stone-800 bg-stone-900/60 p-6"
+            id={themeSection.id}
+          >
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+              <div>
+                <p className="text-xs uppercase tracking-[0.24em] text-stone-500">
+                  {themeSection.eyebrow}
+                </p>
+                <h3 className="mt-2 text-2xl font-semibold text-stone-50">
+                  {themeSection.title}
+                </h3>
+              </div>
+              <p className="rounded-full border border-stone-700 bg-stone-950/70 px-4 py-2 text-xs uppercase tracking-[0.16em] text-stone-300">
+                {themeSection.affects}
+              </p>
+            </div>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-300">
+              {themeSection.description}
+            </p>
+
+            <div className="mt-6 grid gap-4 lg:grid-cols-3">
+              {themePresets.map((preset) => {
+                const isSelected = form.theme.themeId === preset.id;
+
+                return (
+                  <button
+                    key={preset.id}
+                    className={`rounded-[1.5rem] border p-5 text-left transition ${
+                      isSelected
+                        ? "border-amber-200 bg-stone-800/90 shadow-[0_0_0_1px_rgba(253,230,138,0.15)]"
+                        : "border-stone-700 bg-stone-950/70 hover:border-stone-500 hover:bg-stone-900"
+                    }`}
+                    onClick={() =>
+                      updateForm({
+                        ...form,
+                        theme: {
+                          themeId: preset.id,
+                        },
+                      })
+                    }
+                    type="button"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-semibold text-stone-50">{preset.label}</p>
+                        <p className="mt-2 text-sm leading-6 text-stone-300">
+                          {preset.description}
+                        </p>
+                      </div>
+                      <span
+                        className={`mt-1 inline-flex h-4 w-4 rounded-full border ${
+                          isSelected
+                            ? "border-amber-200 bg-amber-200"
+                            : "border-stone-500 bg-transparent"
+                        }`}
+                      />
+                    </div>
+                    <div className="mt-5 flex gap-2">
+                      {preset.previewSwatches.map((swatch) => (
+                        <span
+                          key={swatch}
+                          className="h-10 flex-1 rounded-full border border-white/10"
+                          style={{ background: swatch }}
+                        />
+                      ))}
+                    </div>
+                    <p className="mt-4 text-xs uppercase tracking-[0.18em] text-stone-500">
+                      {isSelected ? "Currently active" : "Available preset"}
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+          </article>
+
+          {sections.map((section) => (
+            <article
+              key={section.id}
+              className="scroll-mt-28 rounded-[1.75rem] border border-stone-800 bg-stone-900/60 p-6"
+              id={section.id}
+            >
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.24em] text-stone-500">
+                    {section.eyebrow}
+                  </p>
+                  <h3 className="mt-2 text-2xl font-semibold text-stone-50">
+                    {section.title}
+                  </h3>
+                </div>
+                <p className="rounded-full border border-stone-700 bg-stone-950/70 px-4 py-2 text-xs uppercase tracking-[0.16em] text-stone-300">
+                  {section.affects}
+                </p>
+              </div>
+              <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-300">
+                {section.description}
+              </p>
+
+              <div className="mt-6 grid gap-4 lg:grid-cols-2">
+                {section.fields.map((field) => (
+                  <label
+                    key={field.path}
+                    className={`space-y-2 text-sm text-stone-300 ${
+                      field.rows ? "lg:col-span-2" : ""
+                    }`}
+                  >
+                    <span>{field.label}</span>
+                    {field.rows ? (
+                      <textarea
+                        className="min-h-28 w-full rounded-2xl border border-stone-700 bg-stone-950 px-4 py-3 text-sm text-stone-100"
+                        onChange={(event) => updateField(field.path, event.target.value)}
+                        rows={field.rows}
+                        value={getFieldValue(form, field.path)}
+                      />
+                    ) : (
+                      <input
+                        className="w-full rounded-2xl border border-stone-700 bg-stone-950 px-4 py-3 text-sm text-stone-100"
+                        onChange={(event) => updateField(field.path, event.target.value)}
+                        value={getFieldValue(form, field.path)}
+                      />
+                    )}
+                  </label>
+                ))}
+              </div>
+            </article>
+          ))}
+
+          <div className="flex flex-wrap items-center gap-3 rounded-[1.75rem] border border-stone-800 bg-stone-900/60 p-6">
+            <button
+              className="rounded-full bg-stone-50 px-5 py-3 text-sm font-semibold text-stone-950 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-60"
+              disabled={isPending || !isDirty}
+              onClick={saveContent}
+              type="button"
+            >
+              {isPending ? "Saving..." : isDirty ? "Save content" : "All changes saved"}
+            </button>
+            <p className="text-sm text-stone-300">{saveStateText}</p>
+          </div>
+        </div>
       </div>
     </section>
   );

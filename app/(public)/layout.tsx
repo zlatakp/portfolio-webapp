@@ -3,11 +3,10 @@ import type { CSSProperties } from "react";
 import { getSelectedPublicTheme, getSiteContent } from "@/lib/site-content";
 
 const navigation = [
-  { href: "/", label: "Home" },
   { href: "/portfolio", label: "Portfolio" },
-  { href: "/services", label: "Services" },
+  { href: "/services#packages", label: "Packages" },
+  { href: "/services#destinations", label: "Destinations" },
   { href: "/about", label: "About" },
-  { href: "/book", label: "Book" },
 ];
 
 export const dynamic = "force-dynamic";
@@ -60,11 +59,11 @@ export default async function PublicLayout({
                 {content.header.brandName}
               </Link>
             </div>
-            <nav className="flex flex-wrap items-center gap-4 text-sm font-medium text-[var(--public-muted-text)]">
+            <nav className="flex w-fit flex-wrap items-center gap-2 rounded-full border border-[var(--public-header-border)] bg-[var(--public-card-surface)] p-2 text-sm font-medium text-[var(--public-muted-text)] shadow-[0_18px_40px_var(--public-shadow-color)]">
               {navigation.map((item) => (
                 <Link
                   key={item.href}
-                  className="transition hover:text-[var(--public-primary-text)]"
+                  className="rounded-full px-4 py-2 transition hover:bg-[var(--public-secondary-cta-background)] hover:text-[var(--public-primary-text)]"
                   href={item.href}
                 >
                   {item.label}

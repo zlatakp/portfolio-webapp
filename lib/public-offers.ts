@@ -1,8 +1,12 @@
 export interface PublicOfferTier {
   name: "Express" | "Standard" | "Premium" | "Platinum";
   summary: string;
+  sequence: string;
+  baseLabel: string;
+  additiveSummary: string;
   progressionLabel: string;
   inclusions: string[];
+  addedInclusions: string[];
 }
 
 export interface PublicDestinationOffer {
@@ -16,8 +20,18 @@ export const corePackageTiers: PublicOfferTier[] = [
   {
     name: "Express",
     summary: "A polished editorial session for quick, refined coverage close to home.",
+    sequence: "01",
+    baseLabel: "Foundational package",
+    additiveSummary: "Begins with the full essential package foundation.",
     progressionLabel: "A focused starting point for concise portrait storytelling.",
     inclusions: [
+      "45-minute guided session",
+      "1 look",
+      "1 nearby location",
+      "12 edited images",
+      "Private online gallery",
+    ],
+    addedInclusions: [
       "45-minute guided session",
       "1 look",
       "1 nearby location",
@@ -28,6 +42,9 @@ export const corePackageTiers: PublicOfferTier[] = [
   {
     name: "Standard",
     summary: "More time, more variety, and more finished imagery for a fuller gallery.",
+    sequence: "02",
+    baseLabel: "Everything in Express",
+    additiveSummary: "Adds more time, a second look, and a broader edited gallery.",
     progressionLabel:
       "Includes everything in Express plus 90-minute session, 2 looks, 20 edited images, styling guidance.",
     inclusions: [
@@ -37,10 +54,20 @@ export const corePackageTiers: PublicOfferTier[] = [
       "20 edited images",
       "Styling guidance",
     ],
+    addedInclusions: [
+      "90-minute session",
+      "2 looks",
+      "20 edited images",
+      "Styling guidance",
+    ],
   },
   {
     name: "Premium",
     summary: "An expanded editorial experience with room for deeper pacing and elevated planning.",
+    sequence: "03",
+    baseLabel: "Everything in Standard",
+    additiveSummary:
+      "Adds deeper session pacing, more looks, and elevated support around planning and retouching.",
     progressionLabel:
       "Includes everything in Standard plus 2.5-hour session, 3 looks, 35 edited images, priority retouching, location-planning support.",
     inclusions: [
@@ -51,14 +78,32 @@ export const corePackageTiers: PublicOfferTier[] = [
       "Priority retouching",
       "Location-planning support",
     ],
+    addedInclusions: [
+      "2.5-hour session",
+      "3 looks",
+      "35 edited images",
+      "Priority retouching",
+      "Location-planning support",
+    ],
   },
   {
     name: "Platinum",
     summary: "The most complete signature tier for multi-scene storytelling and luxury coordination.",
+    sequence: "04",
+    baseLabel: "Everything in Premium",
+    additiveSummary:
+      "Adds the fullest itinerary, expanded delivery, and the most concierge-led planning support.",
     progressionLabel:
       "Includes everything in Premium plus half-day coverage, multi-location itinerary, 60 edited images, concierge timeline planning, album or print credit.",
     inclusions: [
       "Everything in Premium",
+      "Half-day coverage",
+      "Multi-location itinerary",
+      "60 edited images",
+      "Concierge timeline planning",
+      "Album or print credit",
+    ],
+    addedInclusions: [
       "Half-day coverage",
       "Multi-location itinerary",
       "60 edited images",

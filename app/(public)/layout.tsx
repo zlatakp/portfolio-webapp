@@ -5,7 +5,7 @@ import { getSelectedPublicTheme, getSiteContent } from "@/lib/site-content";
 const navigation = [
   { href: "/portfolio", label: "Portfolio" },
   { href: "/services#packages", label: "Packages" },
-  { href: "/services#destinations", label: "Destinations" },
+  { href: "/destinations", label: "Destinations" },
   { href: "/about", label: "About" },
 ];
 

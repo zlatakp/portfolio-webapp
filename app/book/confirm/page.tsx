@@ -43,7 +43,8 @@ export default async function BookingConfirmPage({ searchParams }: BookingConfir
           </h1>
           <p className="max-w-2xl text-base leading-7 text-stone-600">
             Share your contact details so we can confirm your {service.name} session and
-            send the follow-up emails.
+            send the follow-up emails. This Step 3 also includes space for visual
+            references so we can review direction alongside your booking details.
           </p>
         </div>
 

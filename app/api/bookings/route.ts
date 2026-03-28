@@ -20,10 +20,29 @@ const createBookingSchema = z.object({
   clientName: z.string().min(1, "Client name is required"),
   clientEmail: z.string().email("A valid email is required"),
   clientPhone: z.string().min(1).optional(),
+  visualReferences: z.string().min(1).optional(),
   notes: z.string().min(1).optional(),
   date: z.string().date(),
   startTime: z.string().regex(/^\d{2}:\d{2}$/, "startTime must be HH:MM"),
 });
+
+function combineBookingNotes({
+  notes,
+  visualReferences,
+}: {
+  notes?: string;
+  visualReferences?: string;
+}) {
+  if (notes && visualReferences) {
+    return `Client notes:\n${notes}\n\nVisual references:\n${visualReferences}`;
+  }
+
+  if (visualReferences) {
+    return `Visual references:\n${visualReferences}`;
+  }
+
+  return notes;
+}
 
 export async function GET(request: Request) {
   const session = await requireAdminSession();
@@ -92,7 +111,10 @@ export async function POST(request: Request) {
         clientName: body.clientName,
         clientEmail: body.clientEmail,
         clientPhone: body.clientPhone,
-        notes: body.notes,
+        notes: combineBookingNotes({
+          notes: body.notes,
+          visualReferences: body.visualReferences,
+        }),
         date: parseDateOnly(body.date),
         startTime: body.startTime,
         endTime,

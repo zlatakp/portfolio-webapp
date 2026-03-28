@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { corePackageTiers } from "@/lib/public-offers";
+import { corePackageTiers, supplementalOfferOptions } from "@/lib/public-offers";
 import { prisma } from "@/lib/prisma";
 import { getSiteContent } from "@/lib/site-content";
 
@@ -32,47 +31,21 @@ export default async function ServicesPage() {
       orderBy: { createdAt: "desc" },
     }),
   ]);
-  const spotlightImage = content.placeholderImages.servicesSpotlight;
 
   return (
     <main className="px-6 py-14">
       <div className="mx-auto max-w-6xl space-y-8">
-        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div className="space-y-4">
-            <p className="text-xs uppercase tracking-[0.28em] text-[var(--public-muted-text)]">
-              {content.services.eyebrow}
-            </p>
-            <h1 className="text-5xl font-semibold tracking-tight text-[var(--public-primary-text)] sm:text-6xl">
-              {content.services.title}
-            </h1>
-            <p className="max-w-3xl text-base leading-8 text-[var(--public-muted-text)]">
-              {content.services.description}
-            </p>
-          </div>
-
-          <div className="overflow-hidden rounded-[2.5rem] bg-[var(--public-card-surface)] shadow-[0_30px_100px_var(--public-shadow-color)]">
-            <div className="relative aspect-[4/5]">
-              <Image
-                alt={spotlightImage.alt}
-                className="object-cover"
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                src={spotlightImage.url}
-              />
-            </div>
-            <div className="space-y-3 px-6 py-6">
-              <p className="text-xs uppercase tracking-[0.24em] text-[var(--public-muted-text)]">
-                {content.services.highlightEyebrow}
-              </p>
-              <h2 className="text-2xl font-semibold tracking-tight text-[var(--public-primary-text)]">
-                {content.services.highlightTitle}
-              </h2>
-              <p className="text-sm leading-7 text-[var(--public-muted-text)]">
-                {content.services.highlightDescription}
-              </p>
-            </div>
-          </div>
-        </div>
+        <section className="space-y-4">
+          <p className="text-xs uppercase tracking-[0.28em] text-[var(--public-muted-text)]">
+            {content.services.eyebrow}
+          </p>
+          <h1 className="max-w-4xl text-5xl font-semibold tracking-tight text-[var(--public-primary-text)] sm:text-6xl">
+            {content.services.title}
+          </h1>
+          <p className="max-w-3xl text-base leading-8 text-[var(--public-muted-text)]">
+            {content.services.description}
+          </p>
+        </section>
 
         <section className="space-y-8" id="packages">
           <div className="space-y-3">
@@ -89,72 +62,128 @@ export default async function ServicesPage() {
             </p>
           </div>
 
-          <div className="space-y-5">
-            {corePackageTiers.map((tier, index) => (
-              <article
-                key={tier.name}
-                className="rounded-[2.25rem] border border-[var(--public-card-border)] bg-[var(--public-card-surface)] p-7 shadow-[0_16px_50px_var(--public-shadow-color)]"
-              >
-                <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--public-card-border)] bg-[var(--public-secondary-cta-background)] text-sm font-semibold text-[var(--public-secondary-cta-text)]">
-                        {tier.sequence}
-                      </span>
-                      <div>
-                        <p className="text-xs uppercase tracking-[0.24em] text-[var(--public-muted-text)]">
-                          {index === 0 ? "Starting point" : "Next step up"}
-                        </p>
-                        <h3 className="mt-1 text-3xl font-semibold tracking-tight text-[var(--public-primary-text)]">
-                          {tier.name}
-                        </h3>
+          <div className="rounded-[2.5rem] border border-[var(--public-card-border)] bg-[var(--public-card-surface)] p-6 shadow-[0_24px_70px_var(--public-shadow-color)]">
+            <div className="grid gap-4 xl:grid-cols-4">
+              {corePackageTiers.map((tier, index) => (
+                <article
+                  key={tier.name}
+                  className="flex h-full flex-col rounded-[2rem] border border-[var(--public-card-border)] bg-[var(--public-shell-background)] p-6 shadow-[0_12px_36px_var(--public-shadow-color)]"
+                >
+                  <div className="flex h-full flex-col space-y-5">
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3">
+                        <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--public-card-border)] bg-[var(--public-secondary-cta-background)] text-sm font-semibold text-[var(--public-secondary-cta-text)]">
+                          {tier.sequence}
+                        </span>
+                        <div>
+                          <p className="text-xs uppercase tracking-[0.24em] text-[var(--public-muted-text)]">
+                            {index === 0 ? "Starting point" : "Builds on prior tier"}
+                          </p>
+                          <h3 className="mt-1 text-3xl font-semibold tracking-tight text-[var(--public-primary-text)]">
+                            {tier.name}
+                          </h3>
+                        </div>
                       </div>
+                      <p className="text-sm leading-7 text-[var(--public-muted-text)]">
+                        {tier.summary}
+                      </p>
+                      <div className="rounded-[1.5rem] border border-[var(--public-card-border)] bg-[var(--public-card-surface)] px-5 py-4">
+                        <p className="text-xs uppercase tracking-[0.2em] text-[var(--public-muted-text)]">
+                          {tier.baseLabel}
+                        </p>
+                        <p className="mt-2 text-sm leading-7 text-[var(--public-primary-text)]">
+                          {tier.additiveSummary}
+                        </p>
+                      </div>
+                      <p className="text-sm leading-7 text-[var(--public-muted-text)]">
+                        {tier.progressionLabel}
+                      </p>
                     </div>
+
+                    <div className="space-y-4">
+                      <div className="space-y-3">
+                        <p className="text-xs uppercase tracking-[0.24em] text-[var(--public-muted-text)]">
+                          {index === 0 ? "Included in Express" : `What ${tier.name} adds`}
+                        </p>
+                        <h4 className="text-xl font-semibold tracking-tight text-[var(--public-primary-text)]">
+                          {index === 0
+                            ? "The complete foundation for a concise editorial session."
+                            : "A tighter view of the step-up value."}
+                        </h4>
+                      </div>
+
+                      <ul className="grid gap-3 text-sm text-[var(--public-muted-text)]">
+                        {tier.addedInclusions.map((inclusion) => (
+                          <li
+                            key={inclusion}
+                            className="rounded-[1.25rem] border border-[var(--public-card-border)] bg-[var(--public-secondary-cta-background)] px-4 py-3 text-[var(--public-secondary-cta-text)]"
+                          >
+                            {inclusion}
+                          </li>
+                        ))}
+                      </ul>
+
+                      {index > 0 ? (
+                        <p className="rounded-[1.25rem] border border-dashed border-[var(--public-card-border)] px-4 py-3 text-sm text-[var(--public-muted-text)]">
+                          {tier.baseLabel}
+                        </p>
+                      ) : null}
+                    </div>
+
+                    <Link
+                      className="mt-auto inline-flex w-fit rounded-full bg-[var(--public-primary-cta-background)] px-5 py-3 text-sm font-semibold text-[var(--public-primary-cta-text)] transition hover:bg-[var(--public-primary-cta-hover)]"
+                      href={`/book?package=${tier.bookingIntent}`}
+                    >
+                      Continue with {tier.name}
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="space-y-6">
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.24em] text-[var(--public-muted-text)]">
+              Additional paths
+            </p>
+            <h2 className="text-3xl font-semibold tracking-tight text-[var(--public-primary-text)] sm:text-4xl">
+              Tailored or guidance-first ways to begin.
+            </h2>
+            <p className="max-w-3xl text-sm leading-7 text-[var(--public-muted-text)]">
+              If you already know you need something more custom, or you want help
+              choosing the right fit first, start with one of these guided entry points.
+            </p>
+          </div>
+
+          <div className="grid gap-5 lg:grid-cols-2">
+            {supplementalOfferOptions.map((option) => (
+              <article
+                key={option.name}
+                className="rounded-[2rem] border border-[var(--public-card-border)] bg-[var(--public-card-surface)] p-7 shadow-[0_16px_50px_var(--public-shadow-color)]"
+              >
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <p className="text-xs uppercase tracking-[0.24em] text-[var(--public-muted-text)]">
+                      {option.summary}
+                    </p>
+                    <h3 className="text-3xl font-semibold tracking-tight text-[var(--public-primary-text)]">
+                      {option.name}
+                    </h3>
                     <p className="max-w-2xl text-sm leading-7 text-[var(--public-muted-text)]">
-                      {tier.summary}
-                    </p>
-                    <div className="rounded-[1.5rem] border border-[var(--public-card-border)] bg-[var(--public-shell-background)] px-5 py-4">
-                      <p className="text-xs uppercase tracking-[0.2em] text-[var(--public-muted-text)]">
-                        {tier.baseLabel}
-                      </p>
-                      <p className="mt-2 text-sm leading-7 text-[var(--public-primary-text)]">
-                        {tier.additiveSummary}
-                      </p>
-                    </div>
-                    <p className="text-sm leading-7 text-[var(--public-muted-text)]">
-                      {tier.progressionLabel}
+                      {option.description}
                     </p>
                   </div>
 
-                  <div className="space-y-4">
-                    <div className="space-y-3">
-                      <p className="text-xs uppercase tracking-[0.24em] text-[var(--public-muted-text)]">
-                        {index === 0 ? "Included in Express" : `What ${tier.name} adds`}
-                      </p>
-                      <h4 className="text-2xl font-semibold tracking-tight text-[var(--public-primary-text)]">
-                        {index === 0
-                          ? "The complete foundation for a concise editorial session."
-                          : "A tighter view of the step-up value."}
-                      </h4>
-                    </div>
-
-                    <ul className="grid gap-3 text-sm text-[var(--public-muted-text)] sm:grid-cols-2">
-                      {tier.addedInclusions.map((inclusion) => (
-                        <li
-                          key={inclusion}
-                          className="rounded-[1.25rem] border border-[var(--public-card-border)] bg-[var(--public-secondary-cta-background)] px-4 py-3 text-[var(--public-secondary-cta-text)]"
-                        >
-                          {inclusion}
-                        </li>
-                      ))}
-                    </ul>
-
-                    {index > 0 ? (
-                      <p className="rounded-[1.25rem] border border-dashed border-[var(--public-card-border)] px-4 py-3 text-sm text-[var(--public-muted-text)]">
-                        {tier.baseLabel}
-                      </p>
-                    ) : null}
-                  </div>
+                  <Link
+                    className="inline-flex w-fit rounded-full bg-[var(--public-primary-cta-background)] px-5 py-3 text-sm font-semibold text-[var(--public-primary-cta-text)] transition hover:bg-[var(--public-primary-cta-hover)]"
+                    href={`/book?package=${option.bookingIntent}`}
+                  >
+                    {option.name === "Bespoke Shoot"
+                      ? "Start bespoke booking path"
+                      : "Start with a consultation"}
+                  </Link>
                 </div>
               </article>
             ))}
@@ -168,15 +197,15 @@ export default async function ServicesPage() {
           <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="space-y-3">
               <p className="text-xs uppercase tracking-[0.24em] text-[var(--public-muted-text)]">
-                Destinations
+                Destination Packages
               </p>
               <h2 className="text-3xl font-semibold tracking-tight text-[var(--public-primary-text)] sm:text-4xl">
-                Travel-led experiences, presented more quietly.
+                Destination Packages, kept easy to discover.
               </h2>
               <p className="max-w-3xl text-sm leading-7 text-[var(--public-muted-text)]">
-                Destination sessions now live on their own dedicated page so the services
+                Destination Packages now live on their own dedicated page so the services
                 experience stays focused on package progression and live booking options,
-                while destination storytelling still stays easy to discover.
+                while travel-led storytelling still stays easy to discover.
               </p>
             </div>
 
@@ -184,7 +213,7 @@ export default async function ServicesPage() {
               className="inline-flex rounded-full border border-[var(--public-secondary-cta-border)] bg-[var(--public-secondary-cta-background)] px-5 py-3 text-sm font-semibold text-[var(--public-secondary-cta-text)] transition hover:bg-[var(--public-secondary-cta-hover)]"
               href="/destinations"
             >
-              Explore destinations
+              Explore Destination Packages
             </Link>
           </div>
         </section>

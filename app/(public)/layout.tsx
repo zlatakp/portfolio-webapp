@@ -3,9 +3,10 @@ import type { CSSProperties } from "react";
 import { getSelectedPublicTheme, getSiteContent } from "@/lib/site-content";
 
 const navigation = [
+  { href: "/", label: "Home" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/services#packages", label: "Packages" },
-  { href: "/destinations", label: "Destinations" },
+  { href: "/destinations", label: "Destination Packages" },
   { href: "/about", label: "About" },
 ];
 

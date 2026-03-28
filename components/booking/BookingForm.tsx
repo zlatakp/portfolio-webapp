@@ -58,6 +58,7 @@ export function BookingForm({ service }: BookingFormProps) {
           clientName: formData.get("clientName"),
           clientEmail: formData.get("clientEmail"),
           clientPhone: formData.get("clientPhone") || undefined,
+          visualReferences: formData.get("visualReferences") || undefined,
           notes: formData.get("notes") || undefined,
         }),
       });
@@ -92,7 +93,9 @@ export function BookingForm({ service }: BookingFormProps) {
         </h2>
         <p className="mt-3 text-sm leading-7 text-stone-600">
           You&apos;re booking {service.name}
-          {handoff ? ` on ${handoff.date} at ${handoff.startTime}` : ""}.
+          {handoff ? ` on ${handoff.date} at ${handoff.startTime}` : ""}. Use this step
+          to share the details, notes, and visual references that will help shape the
+          session well before the shoot.
         </p>
       </div>
 
@@ -121,6 +124,18 @@ export function BookingForm({ service }: BookingFormProps) {
           <input
             className="w-full rounded-2xl border border-stone-300 bg-stone-50 px-4 py-3 text-sm text-stone-950 outline-none transition focus:border-stone-900"
             name="clientPhone"
+          />
+        </label>
+
+        <label className="space-y-2 text-sm text-stone-700">
+          <span>Visual references (optional)</span>
+          <p className="text-xs leading-6 text-stone-500">
+            Paste portfolio or website image links, or describe the image names or
+            pages you&apos;d like us to reference.
+          </p>
+          <textarea
+            className="min-h-32 w-full rounded-2xl border border-stone-300 bg-stone-50 px-4 py-3 text-sm text-stone-950 outline-none transition focus:border-stone-900"
+            name="visualReferences"
           />
         </label>
 

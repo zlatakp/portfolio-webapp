@@ -8,6 +8,29 @@ import { getSiteMetadata } from "@/lib/site";
 import { getSiteContent } from "@/lib/site-content";
 
 const site = getSiteMetadata();
+const processStages = [
+  {
+    name: "Enquiry",
+    description:
+      "Choose a package or starting path and submit an initial booking request.",
+  },
+  {
+    name: "Planning",
+    description:
+      "We review goals, references, and direction together before the session.",
+  },
+  {
+    name: "Session",
+    description:
+      "The shoot itself is guided with calm pacing, direction, and room to settle in.",
+  },
+  {
+    name: "Delivery",
+    description:
+      "Your edited gallery and follow-up assets are delivered after the session.",
+  },
+] as const;
+
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -147,6 +170,45 @@ export default async function HomePage() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 py-6">
+        <div className="mx-auto max-w-6xl rounded-[2.75rem] border border-[var(--public-card-border)] bg-[var(--public-card-surface)] px-6 py-8 shadow-[0_24px_70px_var(--public-shadow-color)] sm:px-8">
+          <div className="max-w-3xl space-y-3">
+            <p className="text-xs uppercase tracking-[0.28em] text-[var(--public-muted-text)]">
+              Process
+            </p>
+            <h2 className="text-3xl font-semibold tracking-tight text-[var(--public-primary-text)] sm:text-4xl">
+              A calm editorial journey from first enquiry to final delivery.
+            </h2>
+            <p className="text-sm leading-7 text-[var(--public-muted-text)]">
+              The experience is designed to feel considered at every stage: clear at the
+              beginning, collaborative in planning, gently directed during the session,
+              and polished in delivery.
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-4 lg:grid-cols-4">
+            {processStages.map((stage, index) => (
+              <article
+                key={stage.name}
+                className="rounded-[2rem] border border-[var(--public-card-border)] bg-[var(--public-shell-background)] px-5 py-6"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[var(--public-secondary-cta-background)] text-sm font-semibold text-[var(--public-secondary-cta-text)]">
+                    {index + 1}
+                  </span>
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--public-primary-text)]">
+                    {stage.name}
+                  </p>
+                </div>
+                <p className="mt-4 text-sm leading-7 text-[var(--public-muted-text)]">
+                  {stage.description}
+                </p>
+              </article>
+            ))}
           </div>
         </div>
       </section>

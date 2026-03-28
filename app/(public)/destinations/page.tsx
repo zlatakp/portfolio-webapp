@@ -9,16 +9,16 @@ export async function generateMetadata(): Promise<Metadata> {
   const content = await getSiteContent();
 
   return {
-    title: `Destinations | ${content.header.brandName}`,
+    title: `Destination Packages | ${content.header.brandName}`,
     description:
-      "Explore curated destination portrait experiences designed for travel-led editorial sessions.",
+      "Explore Destination Packages designed for travel-led editorial portrait experiences.",
     alternates: {
       canonical: "/destinations",
     },
     openGraph: {
-      title: `Destinations | ${content.header.brandName}`,
+      title: `Destination Packages | ${content.header.brandName}`,
       description:
-        "Explore curated destination portrait experiences designed for travel-led editorial sessions.",
+        "Explore Destination Packages designed for travel-led editorial portrait experiences.",
       url: "/destinations",
     },
   };
@@ -31,13 +31,13 @@ export default function DestinationsPage() {
         <section className="grid gap-6 lg:grid-cols-[1fr_0.8fr] lg:items-end">
           <div className="space-y-4">
             <p className="text-xs uppercase tracking-[0.28em] text-[var(--public-muted-text)]">
-              Destinations
+              Destination Packages
             </p>
             <h1 className="text-5xl font-semibold tracking-tight text-[var(--public-primary-text)] sm:text-6xl">
-              Travel-led portrait experiences with room for atmosphere.
+              Destination Packages for travel-led portrait experiences.
             </h1>
             <p className="max-w-3xl text-base leading-8 text-[var(--public-muted-text)]">
-              These destination offers are presented as premium editorial experiences:
+              These Destination Packages are presented as premium editorial experiences:
               a clear starting point for clients considering travel, scenery-led pacing,
               and a more tailored planning rhythm.
             </p>
@@ -48,9 +48,9 @@ export default function DestinationsPage() {
               Booking path
             </p>
             <p className="mt-3 text-sm leading-7 text-[var(--public-muted-text)]">
-              Destination offers remain curated presentation content for now. When you’re
-              ready to move forward, return to the live services area to continue into the
-              existing booking flow.
+              Destination Packages remain curated presentation content for now. When
+              you’re ready to move forward, return to the live services area to continue
+              into the existing booking flow.
             </p>
             <Link
               className="mt-5 inline-flex rounded-full bg-[var(--public-primary-cta-background)] px-5 py-3 text-sm font-semibold text-[var(--public-primary-cta-text)] transition hover:bg-[var(--public-primary-cta-hover)]"

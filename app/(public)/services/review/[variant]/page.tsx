@@ -63,7 +63,7 @@ export default async function ReviewVariantPage({
   return (
     <PackageExperience
       bookingCtaLabel="Continue into booking"
-      description="Each review route uses the same approved package and add-on data, so this page is only testing the presentation layer."
+      description="Each review route keeps the same approved package ladder, add-ons, and booking entry points. The review is only testing how clearly each variant shows what all four tiers share, what each step adds, and where the biggest upgrades happen."
       eyebrow="Services review"
       isReviewMode
       services={services}

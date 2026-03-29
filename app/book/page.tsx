@@ -93,9 +93,9 @@ const bookingPathOptions = [
 
 const bookingEntryDefaultContent = {
   eyebrow: "Booking entry",
-  title: "Choose the package path you want to anchor first.",
+  title: "Choose the package path you want to book from.",
   description:
-    "All six paths stay visible here so you can compare them before selecting the live service that best fits your timing and session setup.",
+    "Select a package path to open the live booking actions inside that package surface. The live services stay the same, but they now appear as the next step inside the path you choose.",
 };
 
 export default async function BookPage({ searchParams }: BookPageProps) {
@@ -140,110 +140,134 @@ export default async function BookPage({ searchParams }: BookPageProps) {
         </div>
 
         <section className="rounded-[2rem] border border-stone-300 bg-white/75 px-6 py-6 shadow-[0_18px_40px_rgba(50,30,10,0.08)]">
-          <div className="grid gap-8 xl:grid-cols-[1fr_0.88fr]">
-            <div className="space-y-5">
-              <div className="space-y-3">
-                <p className="text-xs uppercase tracking-[0.24em] text-stone-500">
-                  Package paths
-                </p>
-                <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
-                  Keep all six entry paths visible while you choose.
-                </h2>
-                <p className="max-w-3xl text-sm leading-7 text-stone-600">
-                  The four signature packages stay in front first, followed by the
-                  bespoke and consultation routes, so the current path is always visible
-                  without hiding the other valid ways to begin.
-                </p>
-              </div>
-
-              <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-                {bookingPathOptions.map((option) => {
-                  const isSelected = option.bookingIntent === packageIntent;
-
-                  return (
-                    <Link
-                      key={option.bookingIntent}
-                      className={`rounded-[1.5rem] border px-5 py-4 transition ${
-                        isSelected
-                          ? "border-stone-950 bg-stone-950 text-stone-50 shadow-[0_16px_32px_rgba(41,28,19,0.18)]"
-                          : "border-stone-300 bg-white text-stone-700 hover:border-stone-500"
-                      }`}
-                      href={`/book?package=${option.bookingIntent}`}
-                    >
-                      <p className="text-[11px] uppercase tracking-[0.2em] opacity-70">
-                        {isSelected ? "Current path" : "Available path"}
-                      </p>
-                      <p className="mt-2 text-lg font-semibold">{option.name}</p>
-                      <p className="mt-3 text-sm opacity-80">{option.summary}</p>
-                      <p className="mt-2 text-xs leading-6 opacity-70">{option.detail}</p>
-                    </Link>
-                  );
-                })}
-              </div>
+          <div className="space-y-5">
+            <div className="space-y-3">
+              <p className="text-xs uppercase tracking-[0.24em] text-stone-500">
+                Package-first booking
+              </p>
+              <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
+                Select the package path you want, then book from inside that path.
+              </h2>
+              <p className="max-w-3xl text-sm leading-7 text-stone-600">
+                The six paths stay visible in one fixed order. When you select one, the
+                live bookable services open inside that package surface instead of
+                appearing as a separate section below.
+              </p>
             </div>
 
-            <div className="space-y-5 rounded-[1.75rem] border border-stone-300 bg-stone-50 px-5 py-5">
-              <div className="space-y-3">
-                <p className="text-xs uppercase tracking-[0.24em] text-stone-500">
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {bookingPathOptions.map((option) => {
+                const isSelected = option.bookingIntent === packageIntent;
+                const optionContent = packageIntentContent[option.bookingIntent];
+
+                return (
+                  <article
+                    key={option.bookingIntent}
+                    className={`rounded-[1.75rem] border transition ${
+                      isSelected
+                        ? "border-stone-950 bg-stone-950 text-stone-50 shadow-[0_18px_36px_rgba(41,28,19,0.18)] md:col-span-2 xl:col-span-3"
+                        : "border-stone-300 bg-white text-stone-700"
+                    }`}
+                  >
+                    <div className="p-5">
+                      <div className={isSelected ? "grid gap-6 xl:grid-cols-[0.78fr_1.22fr]" : ""}>
+                        <div className="space-y-4">
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="space-y-2">
+                              <p className="text-[11px] uppercase tracking-[0.2em] opacity-70">
+                                {isSelected ? "Current booking path" : "Available path"}
+                              </p>
+                              <h3 className="text-2xl font-semibold tracking-tight">
+                                {option.name}
+                              </h3>
+                            </div>
+
+                            <Link
+                              className={`inline-flex rounded-full px-4 py-2 text-sm font-semibold transition ${
+                                isSelected
+                                  ? "border border-stone-700 bg-stone-50 text-stone-950 hover:bg-stone-200"
+                                  : "border border-stone-300 bg-stone-950 text-stone-50 hover:bg-stone-700"
+                              }`}
+                              href={`/book?package=${option.bookingIntent}`}
+                            >
+                              {isSelected ? "Selected" : "Choose path"}
+                            </Link>
+                          </div>
+
+                          <div className="space-y-2">
+                            <p className="text-sm opacity-80">{option.summary}</p>
+                            <p className="text-sm leading-7 opacity-80">{option.detail}</p>
+                          </div>
+
+                          {isSelected ? (
+                            <div className="rounded-[1.4rem] border border-stone-700 bg-stone-900/80 px-4 py-4 text-stone-100">
+                              <p className="text-xs uppercase tracking-[0.2em] text-stone-300">
+                                {optionContent.eyebrow}
+                              </p>
+                              <h4 className="mt-2 text-xl font-semibold tracking-tight">
+                                {optionContent.title}
+                              </h4>
+                              <p className="mt-3 text-sm leading-7 text-stone-300">
+                                {optionContent.description}
+                              </p>
+                            </div>
+                          ) : null}
+                        </div>
+
+                        {isSelected ? (
+                          <div className="space-y-4 rounded-[1.5rem] border border-stone-700 bg-stone-50 px-4 py-4 text-stone-950">
+                            <div className="space-y-3">
+                              <p className="text-xs uppercase tracking-[0.2em] text-stone-500">
+                                Live booking actions
+                              </p>
+                              <h4 className="text-2xl font-semibold tracking-tight">
+                                Book a live service from inside {option.name}.
+                              </h4>
+                              <p className="text-sm leading-7 text-stone-600">
+                                The selected package path stays visible here while you
+                                choose the real live service record that will take you
+                                into booking next.
+                              </p>
+                            </div>
+
+                            {services.length === 0 ? (
+                              <p className="rounded-[1.5rem] border border-dashed border-stone-300 px-5 py-6 text-sm text-stone-500">
+                                No services are available for booking yet.
+                              </p>
+                            ) : (
+                              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                                {services.map((service) => (
+                                  <ServiceCard
+                                    key={service.id}
+                                    packageIntent={option.bookingIntent}
+                                    packageName={option.name}
+                                    service={service}
+                                  />
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+
+            {!packageIntent ? (
+              <div className="rounded-[1.75rem] border border-dashed border-stone-300 bg-stone-50 px-5 py-5">
+                <p className="text-xs uppercase tracking-[0.2em] text-stone-500">
                   {activeContent.eyebrow}
                 </p>
-                <h3 className="text-2xl font-semibold tracking-tight text-stone-950">
+                <h3 className="mt-2 text-xl font-semibold tracking-tight text-stone-950">
                   {activeContent.title}
                 </h3>
-                <p className="text-sm leading-7 text-stone-600">
+                <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-600">
                   {activeContent.description}
                 </p>
               </div>
-
-              <div className="rounded-[1.4rem] border border-stone-300 bg-white px-4 py-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-stone-500">
-                  Step 2
-                </p>
-                <p className="mt-2 text-sm leading-7 text-stone-600">
-                  Choose one of the live bookable services below. The selected package
-                  path stays as your current context while you continue into the booking
-                  flow.
-                </p>
-              </div>
-
-              <div className="rounded-[1.4rem] border border-dashed border-stone-300 px-4 py-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-stone-500">
-                  Current order
-                </p>
-                <p className="mt-2 text-sm leading-7 text-stone-600">
-                  Express, Standard, Premium, Platinum, Bespoke Shoot, Consultation.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8 border-t border-stone-200 pt-8">
-            <div className="space-y-3">
-              <p className="text-xs uppercase tracking-[0.24em] text-stone-500">
-                Live services
-              </p>
-              <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
-                Choose the live service that fits this package path today.
-              </h2>
-              <p className="max-w-3xl text-sm leading-7 text-stone-600">
-                The package decision and the current live service list now live together
-                in one place, so you can move directly from path selection into booking.
-              </p>
-            </div>
-
-            <div className="mt-6">
-              {services.length === 0 ? (
-                <p className="rounded-[2rem] border border-dashed border-stone-300 px-6 py-8 text-sm text-stone-500">
-                  No services are available for booking yet.
-                </p>
-              ) : (
-                <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-                  {services.map((service) => (
-                    <ServiceCard key={service.id} service={service} />
-                  ))}
-                </div>
-              )}
-            </div>
+            ) : null}
           </div>
         </section>
       </div>

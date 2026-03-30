@@ -1,4 +1,9 @@
-import { BookingStatus, type Booking, type Service } from "@prisma/client";
+import {
+  BookingStatus,
+  type Booking,
+  type Service,
+  type TravelInterest,
+} from "@prisma/client";
 import { format } from "date-fns";
 import { Resend } from "resend";
 import { BookingCancellation } from "@/emails/BookingCancellation";
@@ -96,6 +101,37 @@ export async function sendPhotographerBookingNotification(booking: BookingWithSe
       `Time: ${formatBookingTimeRange(booking)}`,
       booking.clientPhone ? `Phone: ${booking.clientPhone}` : null,
       booking.notes ? `Notes: ${booking.notes}` : null,
+    ]
+      .filter(Boolean)
+      .join("\n"),
+  });
+}
+
+/**
+ * Sends the plain-text photographer notification for a new travel-interest request.
+ */
+export async function sendPhotographerTravelInterestNotification(
+  interest: TravelInterest,
+) {
+  const resend = getResendClient();
+
+  return resend.emails.send({
+    from: getFromEmail(),
+    to: getPhotographerEmail(),
+    subject: `New travel interest: ${interest.city}`,
+    text: [
+      "New travel interest received.",
+      `City: ${interest.city}`,
+      interest.travelAvailabilityId
+        ? `Travel availability reference: ${interest.travelAvailabilityId}`
+        : null,
+      `Client: ${interest.clientName}`,
+      `Email: ${interest.clientEmail}`,
+      interest.clientPhone ? `Phone: ${interest.clientPhone}` : null,
+      interest.preferredTiming
+        ? `Preferred timing: ${interest.preferredTiming}`
+        : null,
+      interest.notes ? `Notes: ${interest.notes}` : null,
     ]
       .filter(Boolean)
       .join("\n"),

@@ -139,6 +139,36 @@ export default async function BookPage({ searchParams }: BookPageProps) {
           </div>
         </div>
 
+        <section className="rounded-[1.75rem] border border-stone-300 bg-white/70 px-5 py-5 shadow-[0_18px_40px_rgba(50,30,10,0.05)]">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div className="space-y-2">
+              <p className="text-xs uppercase tracking-[0.22em] text-stone-500">
+                Travel note
+              </p>
+              <p className="max-w-3xl text-sm leading-7 text-stone-600">
+                If your city is not represented in the live services yet, use the
+                destination travel hub to check confirmed or planned travel windows, or
+                register interest for a new city before you continue.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <Link
+                className="inline-flex rounded-full border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-900 transition hover:bg-stone-100"
+                href="/destinations#travel-availability"
+              >
+                See travel availability
+              </Link>
+              <Link
+                className="inline-flex rounded-full border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-900 transition hover:bg-stone-100"
+                href="/destinations#city-interest"
+              >
+                Request a city
+              </Link>
+            </div>
+          </div>
+        </section>
+
         <section className="rounded-[2rem] border border-stone-300 bg-white/75 px-6 py-6 shadow-[0_18px_40px_rgba(50,30,10,0.08)]">
           <div className="space-y-5">
             <div className="space-y-3">

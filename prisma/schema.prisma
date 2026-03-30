@@ -60,6 +60,19 @@ model SiteContent {
   updatedAt DateTime @updatedAt
 }
 
+model TravelInterest {
+  id                 String   @id @default(cuid())
+  city               String
+  travelAvailabilityId String?
+  clientName         String
+  clientEmail        String
+  clientPhone        String?
+  preferredTiming    String?
+  notes              String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
 enum BookingStatus {
   PENDING
   CONFIRMED

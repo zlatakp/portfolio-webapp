@@ -1193,20 +1193,29 @@ export function PackageExperience({
                 Destination Packages
               </p>
               <h2 className="text-3xl font-semibold tracking-tight text-[var(--public-primary-text)] sm:text-4xl">
-                Destination storytelling still has its own dedicated page.
+                Travel-led storytelling now has a dedicated availability hub.
               </h2>
               <p className="max-w-3xl text-sm leading-7 text-[var(--public-muted-text)]">
-                Travel-led packages remain easy to discover, but they stay separate from
-                the core package ladder so this page can stay focused and calm.
+                The core ladder stays focused here, while destination clients can now
+                jump straight into confirmed cities, planned windows, or a city-interest
+                request without losing the premium package context.
               </p>
             </div>
 
-            <Link
-              className="inline-flex rounded-full border border-[var(--public-secondary-cta-border)] bg-[var(--public-secondary-cta-background)] px-5 py-3 text-sm font-semibold text-[var(--public-secondary-cta-text)] transition hover:bg-[var(--public-secondary-cta-hover)]"
-              href="/destinations"
-            >
-              Explore Destination Packages
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                className="inline-flex rounded-full border border-[var(--public-secondary-cta-border)] bg-[var(--public-secondary-cta-background)] px-5 py-3 text-sm font-semibold text-[var(--public-secondary-cta-text)] transition hover:bg-[var(--public-secondary-cta-hover)]"
+                href="/destinations#travel-availability"
+              >
+                Explore travel availability
+              </Link>
+              <Link
+                className="inline-flex rounded-full border border-[var(--public-secondary-cta-border)] bg-[var(--public-secondary-cta-background)] px-5 py-3 text-sm font-semibold text-[var(--public-secondary-cta-text)] transition hover:bg-[var(--public-secondary-cta-hover)]"
+                href="/destinations#city-interest"
+              >
+                Request your city
+              </Link>
+            </div>
           </div>
         </section>
 

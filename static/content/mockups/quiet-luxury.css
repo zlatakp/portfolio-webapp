@@ -1,0 +1,173 @@
+:root {
+  --bg: #f6f2e8;
+  --panel: #fffdf8;
+  --ink: #23211b;
+  --muted: #626055;
+  --line: rgba(35, 33, 27, 0.12);
+  --accent: #7a7b58;
+  --headline: "Cormorant Garamond", "Iowan Old Style", serif;
+  --body: "Optima", "Avenir Next", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(122, 123, 88, 0.08), transparent 20%),
+    linear-gradient(180deg, #f9f6ef 0%, var(--bg) 100%);
+  color: var(--ink);
+  font-family: var(--body);
+}
+
+.shell {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 3rem 0 4rem;
+}
+
+.hero {
+  max-width: 48rem;
+}
+
+.eyebrow,
+.kicker {
+  margin: 0 0 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.74rem;
+  color: var(--accent);
+}
+
+h1,
+h2 {
+  margin: 0;
+  font-family: var(--headline);
+  line-height: 0.98;
+}
+
+h1 {
+  font-size: clamp(3.1rem, 7vw, 5.8rem);
+}
+
+h2 {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+}
+
+.lead,
+p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding: 1.3rem;
+  border: 1px solid var(--line);
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.step {
+  padding-right: 1rem;
+  border-right: 1px solid var(--line);
+}
+
+.step:last-child {
+  border-right: 0;
+}
+
+.step span {
+  color: var(--accent);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+}
+
+.step strong {
+  display: block;
+  margin-top: 0.7rem;
+  font-size: 1.1rem;
+}
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.plan {
+  padding: 1.8rem;
+  border-radius: 1.5rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.featured {
+  border-color: rgba(122, 123, 88, 0.36);
+  box-shadow: 0 20px 40px rgba(62, 61, 43, 0.08);
+}
+
+.price {
+  margin: 0.85rem 0 1rem;
+  color: var(--ink);
+  font-family: var(--headline);
+  font-size: 2.9rem;
+}
+
+ul {
+  margin: 0;
+  padding-left: 1rem;
+}
+
+li {
+  margin-bottom: 0.8rem;
+}
+
+.footer-note {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+a {
+  display: inline-flex;
+  padding: 0.85rem 1rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #f7f4ed;
+  text-decoration: none;
+}
+
+@media (max-width: 860px) {
+  .timeline,
+  .plans,
+  .footer-note {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline,
+  .footer-note {
+    display: grid;
+  }
+
+  .step {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 1rem;
+  }
+
+  .step:last-child {
+    border-bottom: 0;
+  }
+}

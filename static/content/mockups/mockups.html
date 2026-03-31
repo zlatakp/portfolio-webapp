@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Packages Mockups | Marlowe Studio</title>
+    <style>
+      :root {
+        --bg: #f1e8db;
+        --card: rgba(255, 250, 245, 0.82);
+        --ink: #211a16;
+        --muted: #675a50;
+        --line: rgba(33, 26, 22, 0.12);
+        --accent: #af5e41;
+        --headline: "Iowan Old Style", "Palatino Linotype", serif;
+        --body: "Avenir Next", "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at top right, rgba(175, 94, 65, 0.18), transparent 24%),
+          linear-gradient(180deg, #eee2d2 0%, var(--bg) 100%);
+        color: var(--ink);
+        font-family: var(--body);
+      }
+
+      main {
+        width: min(1120px, calc(100% - 2rem));
+        margin: 0 auto;
+        padding: 3rem 0 4rem;
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        font-family: var(--headline);
+        line-height: 0.98;
+      }
+
+      h1 {
+        max-width: 10ch;
+        font-size: clamp(3rem, 7vw, 5.8rem);
+      }
+
+      p {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .intro {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 1.5rem;
+        align-items: end;
+      }
+
+      .pill {
+        display: inline-flex;
+        padding: 0.7rem 1rem;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.45);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.2rem;
+        margin-top: 2rem;
+      }
+
+      .card {
+        display: grid;
+        gap: 1rem;
+        padding: 1.4rem;
+        border-radius: 1.6rem;
+        border: 1px solid var(--line);
+        background: var(--card);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 16px 40px rgba(47, 31, 19, 0.08);
+      }
+
+      .card strong {
+        color: var(--ink);
+        font-size: 1.15rem;
+      }
+
+      .meta {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+      }
+
+      .meta span {
+        padding: 0.45rem 0.7rem;
+        border-radius: 999px;
+        background: rgba(175, 94, 65, 0.1);
+        color: var(--accent);
+        font-size: 0.84rem;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .card-link {
+        display: inline-flex;
+        width: fit-content;
+        padding: 0.8rem 1rem;
+        border-radius: 999px;
+        background: var(--ink);
+        color: #f9f2e8;
+      }
+
+      @media (max-width: 760px) {
+        .intro,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="intro">
+        <div>
+          <p class="pill">Photographer Packages</p>
+          <h1>Thirteen distinct directions to choose from.</h1>
+          <p>
+            The original concepts remain in place, and the newest series returns
+            to the strongest references: the first editorial layout and Darkroom
+            Noir, with the slots-left note, comparison table, workflow, and CTA
+            structure brought back into focus.
+          </p>
+        </div>
+        <p class="pill">Open each page directly</p>
+      </div>
+
+      <section class="grid">
+        <a class="card" href="index_old.html">
+          <strong>1. Editorial Contact Sheet</strong>
+          <p>Proof-deck mood, warm paper tones, and premium comparison cards.</p>
+          <div class="meta">
+            <span>Bold editorial</span>
+            <span>Most balanced</span>
+          </div>
+          <span class="card-link">Open mockup</span>
+        </a>
+
+        <a class="card" href="gallery-mosaic.html">
+          <strong>2. Gallery Mosaic</strong>
+          <p>Asymmetric image blocks with package details layered like gallery captions.</p>
+          <div class="meta">
+            <span>Immersive</span>
+            <span>Visual-first</span>
+          </div>
+          <span class="card-link">Open mockup</span>
+        </a>
+
+        <a class="card" href="quiet-luxury.html">
+          <strong>3. Quiet Luxury Timeline</strong>
+          <p>Minimal ivory-and-olive comparison built around service progression.</p>
+          <div class="meta">
+            <span>Elegant</span>
+            <span>Refined</span>
+          </div>
+          <span class="card-link">Open mockup</span>
+        </a>
+
+        <a class="card" href="darkroom-noir.html">
+          <strong>4. Darkroom Noir</strong>
+          <p>Cinematic black-and-copper pricing cards with a fashion-led tone.</p>
+          <div class="meta">
+            <span>Moody</span>
+            <span>High contrast</span>
+          </div>
+          <span class="card-link">Open mockup</span>
+        </a>
+
+        <a class="card" href="sunlit-storyboard.html">
+          <strong>5. Sunlit Storyboard</strong>
+          <p>Soft sunset gradients, pinned-note details, and approachable premium energy.</p>
+          <div class="meta">
+            <span>Bright</span>
+            <span>High-touch</span>
+          </div>
+          <span class="card-link">Open mockup</span>
+        </a>
+      </section>
+
+      <section class="grid">
+        <a class="card" href="atelier-balance.html">
+          <strong>6. Atelier Balance</strong>
+          <p>Editorial warmth and calm luxury spacing with early CTA visibility.</p>
+          <div class="meta">
+            <span>Quiet luxury</span>
+            <span>Balanced</span>
+          </div>
+          <span class="card-link">Open mockup</span>
+        </a>
+
+        <a class="card" href="ivory-noir.html">
+          <strong>7. Ivory Noir</strong>
+          <p>Moody dark hero with a lighter, easier booking flow underneath.</p>
+          <div class="meta">
+            <span>Refined contrast</span>
+            <span>Strong first impression</span>
+          </div>
+          <span class="card-link">Open mockup</span>
+        </a>
+
+        <a class="card" href="salon-navigation.html">
+          <strong>8. Salon Navigation</strong>
+          <p>The clearest conversion-focused layout in the set, still styled with restraint.</p>
+          <div class="meta">
+            <span>Easy navigation</span>
+            <span>Utility-led</span>
+          </div>
+          <span class="card-link">Open mockup</span>
+        </a>
+
+        <a class="card" href="quiet-copper.html">
+          <strong>9. Quiet Copper</strong>
+          <p>Minimal structure with warm metallic accents and a single clean CTA path.</p>
+          <div class="meta">
+            <span>Calmest</span>
+            <span>Premium</span>
+          </div>
+          <span class="card-link">Open mockup</span>
+        </a>
+
+        <a class="card" href="gallery-atelier.html">
+          <strong>10. Gallery Atelier</strong>
+          <p>The most art-directed hybrid, but still disciplined around navigation and booking.</p>
+          <div class="meta">
+            <span>Editorial hybrid</span>
+            <span>Directional</span>
+          </div>
+          <span class="card-link">Open mockup</span>
+        </a>
+      </section>
+
+      <section class="grid">
+        <a class="card" href="contact-sheet-noir.html">
+          <strong>11. Contact Sheet Noir</strong>
+          <p>The original editorial structure with a darker, richer finish and full comparison/workflow sections.</p>
+          <div class="meta">
+            <span>Closest to favourite</span>
+            <span>Editorial</span>
+          </div>
+          <span class="card-link">Open mockup</span>
+        </a>
+
+        <a class="card" href="reserve-window.html">
+          <strong>12. Reserve Window</strong>
+          <p>Closer to the first design, but with a stronger availability note and clearer booking emphasis.</p>
+          <div class="meta">
+            <span>Best booking signal</span>
+            <span>Warm premium</span>
+          </div>
+          <span class="card-link">Open mockup</span>
+        </a>
+
+        <a class="card" href="midnight-proof.html">
+          <strong>13. Midnight Proof</strong>
+          <p>The strongest evolution of Darkroom Noir with slots left, comparison, and workflow restored.</p>
+          <div class="meta">
+            <span>Noir favourite</span>
+            <span>Most cinematic</span>
+          </div>
+          <span class="card-link">Open mockup</span>
+        </a>
+      </section>
+    </main>
+  </body>
+</html>
